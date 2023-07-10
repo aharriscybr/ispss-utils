@@ -1,12 +1,32 @@
 
-function Set-TokenData([PSCredential] $c, $tenant){
+function Initialize-Environment(){
+    [CmdletBinding()]
+    param(
+        [Parameter(Position=0,mandatory=$true)]
+        [string] $IdentityTenant,
+        [Parameter(Position=1,mandatory=$true)]
+        [string] $PrivDomain
+    )
+
+    $global:tenant = $IdentityTenant
+    $global:privdomain = $PrivDomain
+}
+
+function Set-TokenData(){
+    [CmdletBinding()]
+    param(
+        [Parameter(Position=0,mandatory=$true)]
+        [string] $tenant,
+    )
+
+    $C = Get-Credential
 
     $authnUrl = "https://" + $tenant + ".id.cyberark.cloud/oauth2/platformtoken"
     $method = "POST"
 
-    $client = [System.Web.HttpUtility]::UrlEncode("")
+    $client = [System.Web.HttpUtility]::UrlEncode($C.UserName)
     $type = "client_credentials"
-    $secret = [System.Web.HttpUtility]::UrlEncode("")
+    $secret = [System.Web.HttpUtility]::UrlEncode($C.GetNetworkCredential().Password)
 
     $body = "client_id=" + $client + "&grant_type=" + $type + "&client_secret=" + $secret
 
