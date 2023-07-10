@@ -5,11 +5,15 @@ function Initialize-Environment(){
         [Parameter(Position=0,mandatory=$true)]
         [string] $IdentityTenant,
         [Parameter(Position=1,mandatory=$true)]
-        [string] $PrivDomain
+        [string] $PrivDomain,
+        [Parameter(Position=2,mandatory=$true)]
+        [string] $SafeName
     )
 
     $global:tenant = $IdentityTenant
     $global:privdomain = $PrivDomain
+    $global:safe = $SafeName
+
 }
 
 function Set-TokenData(){
@@ -45,5 +49,18 @@ function Set-TokenData(){
         Write-Host $_
 
     } 
+
+}
+
+function CleanUp(){
+
+    Write-Host "Cleaning up Variables..."
+
+    Remove-Variable IdentityTenant
+    Remove-Variable PrivDomain
+    Remove-Variable SafeName
+    Remove-Variable tenant
+    Remove-Variable privdomain
+    Remove-Variable safe
 
 }
