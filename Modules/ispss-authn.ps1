@@ -20,7 +20,7 @@ function Set-TokenData(){
     [CmdletBinding()]
     param(
         [Parameter(Position=0,mandatory=$true)]
-        [string] $tenant,
+        [string] $tenant
     )
 
     $C = Get-Credential
