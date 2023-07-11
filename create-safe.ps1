@@ -14,7 +14,7 @@ function CreateSafe(){
     $headers.Add("Authorization", $token)
 
     $body = @{
-        numberOfDaysRetention: 0
+        numberOfDaysRetention = 0
         safeName = $safe
         description = "Create via Powershell Script"
     }
