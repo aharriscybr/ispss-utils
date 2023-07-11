@@ -42,25 +42,12 @@ function Set-TokenData(){
 
         $localToken = Invoke-RestMethod -Method $Method -Body $body -Uri $authnUrl
 
-        return $localToken.access_token
+        return "Bearer " + $localToken.access_token
 
     } catch {
 
         Write-Host $_
 
     } 
-
-}
-
-function CleanUp(){
-
-    Write-Host "Cleaning up Variables..."
-
-    Remove-Variable IdentityTenant
-    Remove-Variable PrivDomain
-    Remove-Variable SafeName
-    Remove-Variable tenant
-    Remove-Variable privdomain
-    Remove-Variable safe
 
 }

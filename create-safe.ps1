@@ -1,9 +1,8 @@
 
 
 #Import authn module
-. Modules\ispss-authn.ps1
-
-Initialize-Environment
+. .\Modules\ispss-authn.ps1
+Add-Type -AssemblyName System.Web
 
 function CreateSafe(){
 
@@ -12,24 +11,27 @@ function CreateSafe(){
 
     $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
     $headers.Add("Content-Type", "application/json")
-    $headers.Add("Authorization", "Bearer " + token)
+    $headers.Add("Authorization", $token)
 
     $body = @{
-        numberOfDaysRetention: 7
+        numberOfDaysRetention: 0
         safeName = $safe
         description = "Create via Powershell Script"
     }
 
-    $uri = "https://" + $privdomain + ".privilegecloud.cyberark.cloud/PasswordVault/API/Safes/"
+    $jsonBody = $body | ConverTo-Json
 
     try {
 
-        Invoke-RestMethod -Method $Method -Body $body -Uri $uri
+        Invoke-RestMethod -Method $Method -Body $jsonBody -Uri "https://$privdomain.privilegecloud.cyberark.cloud/PasswordVault/API/Safes" -Header $headers
 
     } catch {
 
+        Write-Host $_.Exception.ResponseCode
         Write-Host $_
 
     } 
 
 }
+
+Initialize-Environment
