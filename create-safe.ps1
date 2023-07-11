@@ -19,7 +19,7 @@ function CreateSafe(){
         description = "Create via Powershell Script"
     }
 
-    $jsonBody = $body | ConverTo-Json
+    $jsonBody = $body | ConvertTo-Json
 
     try {
 
@@ -35,3 +35,4 @@ function CreateSafe(){
 }
 
 Initialize-Environment
+CreateSafe
